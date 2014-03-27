@@ -22,6 +22,20 @@
         <item>Metronome</item>
         <item>Update</item>
     </string-array>
+    <string-array name="section_array">
+        <item>Tuba</item>
+        <item>Low Brass</item>
+        <item>Melophones</item>
+        <item>Trumpet</item>
+        <item>Drumline</item>
+        <item>Alto Saxaphones</item>
+        <item>Tenor Saxaphones</item>
+        <item>Bass Saxaphones</item>
+        <item>Clarinet</item>
+        <item>Bass Clarinet</item>
+        <item>Flute</item>
+        <item>Color Guard</item>/
+    </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>

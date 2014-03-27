@@ -1,5 +1,6 @@
 package com.band.activities;
 
+import com.band.gen.R;
 import com.band.render.MarcherList;
 import com.band.render.RenderRewrite;
 import com.band.render.ScreenHandler;
@@ -36,45 +37,28 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 		
 		mList = new MarcherList( this );
 				
-		ScreenHandler handlr = new ScreenHandler( mList, this );
-		handlr.setState( State.PAUSED );
-		handlr.init();
+		//ScreenHandler handlr = new ScreenHandler( mList, this );
+		//handlr.setState( State.PAUSED );
+		//handlr.init();
 		
 		Log.d("onCreate", "Done with marching list");
-		render = new RenderRewrite( this, mList, handlr );
+		//render = new RenderRewrite( this, mList, handlr );
 		Log.d("debug", "Finished making the DotBook render object");
-		setContentView( render );
+		setContentView(R.layout.render_layout);
+		// setContentView( render );
 		
 	}
-	
-	/*
-	public class MainScreen extends View {
-
-		public MainScreen( Context context ) {
-			super(context);
-			
-		}
-		
-		@Override
-		protected void onDraw( Canvas canvas ){
-			
-			
-			invalidate();
-		}
-		
-	}
-	*/
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		render.resume();
+		//render.resume();
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-		render.pause();
+		//render.pause();
 	}
 	
 	@Override
