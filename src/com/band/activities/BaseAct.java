@@ -4,9 +4,9 @@ import java.util.Locale;
 
 import com.band.gen.R;
 
+import com.band.activities.DriveUpdate;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -168,7 +168,7 @@ public class BaseAct extends Activity {
 	        // update the main content by replacing fragments
 	    	Log.d("NavDrawer", "Position:" + position );
 	    	if( position == 1 ) {
-	    		Intent intent = new Intent( this, RenderActivity.class );
+	    		Intent intent = new Intent( this, DriveUpdate.class );
 	    		startActivity(intent);
 	    	}
 	    	/*

@@ -24,7 +24,7 @@
     <application
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
 
         <activity
             android:name="com.band.activities.BaseAct"
@@ -40,6 +40,14 @@
                 <action android:name="com.band.activities.RenderActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter> 
+        </activity>
+        
+        <activity
+           android:name="com.band.activities.DriveUpdate" >
+            <intent-filter>
+                <action android:name="com.band.activities.DriveUpdate" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>    
 
     </application>

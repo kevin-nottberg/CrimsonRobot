@@ -1,20 +1,18 @@
 package com.band.activities;
 
-import com.band.gen.R;
-import com.band.render.MarcherList;
-import com.band.render.RenderRewrite;
-import com.band.render.ScreenHandler;
-import com.band.render.State;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.band.gen.R;
+import com.band.render.MarcherList;
+import com.band.render.RenderRewrite;
 
 /* 
  * This is the main class that will handle the screen
@@ -28,6 +26,7 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 
 	MarcherList mList;
 	RenderRewrite render;
+	Button updateButton;
 	
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -35,7 +34,7 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 		
 		Log.d("debug", "In onCreate");
 		
-		mList = new MarcherList( this );
+		//mList = new MarcherList( this );
 				
 		//ScreenHandler handlr = new ScreenHandler( mList, this );
 		//handlr.setState( State.PAUSED );
@@ -46,7 +45,16 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 		Log.d("debug", "Finished making the DotBook render object");
 		setContentView(R.layout.render_layout);
 		// setContentView( render );
-		
+		updateButton = (Button) findViewById(R.id.button1);
+		updateButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent( getBaseContext(), DriveUpdate.class );
+				startActivity(intent);
+				Toast.makeText(getBaseContext(), "Updating", 10000);
+			}
+		});
 	}
 	
 	@Override
