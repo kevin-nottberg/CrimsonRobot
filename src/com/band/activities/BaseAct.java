@@ -168,7 +168,7 @@ public class BaseAct extends Activity {
 	        // update the main content by replacing fragments
 	    	Log.d("NavDrawer", "Position:" + position );
 	    	if( position == 1 ) {
-	    		Intent intent = new Intent( this, DriveUpdate.class );
+	    		Intent intent = new Intent( this, RenderActivity.class );
 	    		startActivity(intent);
 	    	}
 	    	/*

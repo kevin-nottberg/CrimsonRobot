@@ -1,5 +1,7 @@
 package com.band.supporting;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -50,16 +52,15 @@ public class XmlParser {
 	public Document getDomElement(String xml){
 		Log.d("debugMarcherList", "getting the dom element");
 		Log.d("parserError", "" + xml);
-		AssetManager assets = context.getAssets();
 		try {
-		InputStream fXmlFile = assets.open(xml);
-		Log.d("debugMarcherList", "" + fXmlFile.toString());
+		FileInputStream file = new FileInputStream( new File(context.getFilesDir(), xml) );
+		Log.d("debugMarcherList", "" + file.toString());
 		Log.d("debugMarcherList", "created the file");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		Log.d("debugMarcherList", "Created the document builder fact");
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Log.d("debugMarcherList", "Created the document builder");
-		doc = dBuilder.parse(fXmlFile, null);
+		doc = dBuilder.parse(file, null);
 		
 		Log.d("debugMarcherList", ""+doc);
 	 

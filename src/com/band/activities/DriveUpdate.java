@@ -1,13 +1,24 @@
 package com.band.activities;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
@@ -45,9 +56,13 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
 
 	private DriveId mSelectedFileDriveId;
 	
+	Context context;
+	
 	@Override
 	public void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
+		
+		context = this;
 		
 		if (savedInstanceState != null) {
             mAccountName = savedInstanceState.getString( EXTRA_ACCOUNT_NAME );
@@ -66,7 +81,6 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         }
         
         readMasterDotFile = false;
-
 		
 	}
 	
@@ -118,7 +132,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         		if( buf.length() > 0 ) {
         		    mSelectedFileDriveId = DriveId.decodeFromString( buf.toString() );
         		
-        		    Log.i("testing", "Using previously selected file: " + mSelectedFileDriveId.encodeToString() );
+        		    Log.i("driveTest", "Using previously selected file: " + mSelectedFileDriveId.encodeToString() );
         		}
         	}
         }
@@ -205,13 +219,13 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         try {
             result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
         } catch (SendIntentException e) {
-            Log.d("testing", "Exception while starting resolution activity", e);
+            Log.i("driveTest", "Exception while starting resolution activity", e);
         }	
 	}
 	
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-		Log.d("Testing", "onActivityResult()");
+		Log.d("driveTest", "onActivityResult()");
 		super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
             apiClient.connect();
@@ -219,17 +233,17 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         else if( requestCode == REQUEST_CODE_CREATOR ) {
             // Called after a file is saved to Drive.
             if (resultCode == RESULT_OK) {
-                Log.i("testing", "File created.");
+                Log.i("driveTest", "File created.");
                 //search();
             }
         }
         else if( requestCode == REQUEST_CODE_OPENER ) {
-            Log.i("testing", "File opener: " + resultCode);
+            Log.i("driveTest", "File opener: " + resultCode);
             // Called after a file is saved to Drive.
             if (resultCode == RESULT_OK) {
-                Log.i("testing", "File opener.");
+                Log.i("driveTest", "File opener.");
                 mSelectedFileDriveId = (DriveId) data.getParcelableExtra( OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID );
-                Log.i("testing", "selectedFileID: " + mSelectedFileDriveId.encodeToString());
+                Log.i("driveTest", "selectedFileID: " + mSelectedFileDriveId.encodeToString());
                 
                 
                 //search();
@@ -246,7 +260,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
             public void onProgress(long bytesDownloaded, long bytesExpected) {
                 // Update progress dialog with the latest progress.
                 int progress = (int)(bytesDownloaded*100/bytesExpected);
-                Log.d("testing", String.format("Loading progress: %d percent", progress));
+                Log.d("driveTest", String.format("Loading progress: %d percent", progress));
                 //mProgressBar.setProgress(progress);
             }
         };
@@ -261,26 +275,35 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         @Override
         public void onResult(ContentsResult result) {
             if (!result.getStatus().isSuccess()) {
-                Log.i("testing", "Error while opening the file contents");
+                Log.i("driveTest", "Error while opening the file contents");
                 return;
             }
-            Log.i("testing", "File contents opened");
-            
+            Log.i("driveTest", "File contents opened");
+            Log.i("driveText", "File things: " + context.getFilesDir().getAbsolutePath() );
+            String fileName = "masterDotBook.xml";
             try {
                 InputStream inStream = result.getContents().getInputStream();
-            
+                
+                Log.d("driveText", "File things: " + context.getFilesDir().getAbsolutePath() );
+                File file = new File( context.getFilesDir(), fileName );
+   
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
                 StringBuilder out = new StringBuilder();
                 String line;
+                FileWriter fWriter = new FileWriter(file.getAbsolutePath());
+                BufferedWriter writer = new BufferedWriter( fWriter );
                 while ((line = reader.readLine()) != null) {
                     out.append(line);
+                    writer.write(line);
                 }
                 reader.close();
+                writer.close();
             
-                Log.i("testing", "Content: " + out.toString() );
-            
+                Log.d("driveTest", "Content: " + out.toString() );
+                
+               
             } catch( IOException ioe ) {
-                Log.i("testing", "IOException: " + ioe.getMessage() );
+                Log.i("driveTest", "IOException: " + ioe.getMessage() );
             }
         }
     };

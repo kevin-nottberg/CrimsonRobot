@@ -25,6 +25,8 @@ public class XmlWriter {
 	DocumentBuilderFactory docFactory;
 	DocumentBuilder docBuilder;
 	Element rootElement;
+	Element marcherListElement;
+	Element marcherElement;
 	
 	public XmlWriter() {
 			docFactory = DocumentBuilderFactory.newInstance();
@@ -38,15 +40,22 @@ public class XmlWriter {
 	
 	public void startNewDoc() {
 		doc = docBuilder.newDocument();
-		Document doc = docBuilder.newDocument();
-		rootElement = doc.createElement("config");
+		rootElement = doc.createElement("bandutil");
 		doc.appendChild(rootElement);
+		marcherListElement = doc.createElement("marcherlist");
+		rootElement.appendChild(marcherListElement);
+		
+	}
+	
+	public void addMarcher() {
+		marcherElement = doc.createElement("marcher");
+		marcherListElement.appendChild(marcherElement);
 	}
 	
 	public void addDot( int bpm, int setcount, int x, int y ) {
 		
 		Element dot = doc.createElement("dot");
-		rootElement.appendChild(dot);
+		marcherElement.appendChild(dot);
 		
 		Element bpmElement = doc.createElement("bpm");
 		bpmElement.appendChild( doc.createTextNode( Integer.toString( bpm ) ) );
@@ -69,12 +78,12 @@ public class XmlWriter {
 	}
 	
 	
-	public void finishAndWriteDoc( Context context ) {
+	public void finishAndWriteDoc( Context context, String path ) {
 		// Write the new doc to the android assets.
 		FileOutputStream fileOut = null;
 		Transformer transformer = null;
 		try {
-			fileOut = context.openFileOutput( "dotBook.xml", Context.MODE_WORLD_WRITEABLE );
+			fileOut = context.openFileOutput( path, Context.MODE_WORLD_WRITEABLE );
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

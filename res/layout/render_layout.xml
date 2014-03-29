@@ -34,10 +34,16 @@
 
                     <Button
                         android:id="@+id/button1"
-                        android:layout_width="317dp"
-                        android:layout_height="85dp"
+                        android:layout_width="44dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.01"
                         android:text="Update DotBooks" />
 
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parse" />
                 </LinearLayout>
 
                 <LinearLayout

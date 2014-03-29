@@ -1,9 +1,18 @@
 package com.band.activities;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -13,6 +22,9 @@ import android.widget.Toast;
 import com.band.gen.R;
 import com.band.render.MarcherList;
 import com.band.render.RenderRewrite;
+import com.band.render.ScreenHandler;
+import com.band.render.State;
+import com.band.supporting.RawDotBook;
 
 /* 
  * This is the main class that will handle the screen
@@ -27,6 +39,9 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 	MarcherList mList;
 	RenderRewrite render;
 	Button updateButton;
+	Button dotBookParse;
+	Display display;
+	Context context;
 	
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -34,11 +49,14 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 		
 		Log.d("debug", "In onCreate");
 		
-		//mList = new MarcherList( this );
+		context = this;
+		
+		mList = new MarcherList( this );
 				
-		//ScreenHandler handlr = new ScreenHandler( mList, this );
+		final ScreenHandler handlr = new ScreenHandler( mList, this );
 		//handlr.setState( State.PAUSED );
 		//handlr.init();
+		handlr.initHndler( new Canvas());
 		
 		Log.d("onCreate", "Done with marching list");
 		//render = new RenderRewrite( this, mList, handlr );
@@ -55,6 +73,18 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 				Toast.makeText(getBaseContext(), "Updating", 10000);
 			}
 		});
+		
+		dotBookParse = (Button) findViewById( R.id.button2 );
+		dotBookParse.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				RawDotBook rawDotBook = new RawDotBook( context, handlr );
+				rawDotBook.init( "masterDotBook.xml" );
+			}
+		});
+		
 	}
 	
 	@Override
