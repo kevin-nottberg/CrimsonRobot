@@ -18,6 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import android.content.Context;
+import android.widget.Toast;
 
 public class XmlWriter {
 	
@@ -42,14 +43,12 @@ public class XmlWriter {
 		doc = docBuilder.newDocument();
 		rootElement = doc.createElement("bandutil");
 		doc.appendChild(rootElement);
-		marcherListElement = doc.createElement("marcherlist");
-		rootElement.appendChild(marcherListElement);
 		
 	}
 	
 	public void addMarcher() {
 		marcherElement = doc.createElement("marcher");
-		marcherListElement.appendChild(marcherElement);
+		rootElement.appendChild(marcherElement);
 	}
 	
 	public void addDot( int bpm, int setcount, int x, int y ) {
@@ -103,5 +102,6 @@ public class XmlWriter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
 	}
 }

@@ -24,7 +24,7 @@ public class RawDotBook {
 	static final String SIDE = "side";
 	static final String HORIZONTAL = "horiz";
 	static final String HORIZONTALDIRECTION = "horizdir";
-	static final String HORIZONTALSTEP = "horistep";
+	static final String HORIZONTALSTEP = "horizstep";
 	static final String VERTICAL = "vert";
 	static final String VERTICALDIRECTION = "vertdir";
 	static final String VERTICALSTEP = "vertstep";
@@ -42,38 +42,44 @@ public class RawDotBook {
 		XmlParser parser = new XmlParser( context );
 		Document doc = parser.getDomElement( path );
 		Log.d("debugMarcherList", "Got parser and created got the doc");
-		Log.d("debugMarcherList", ""+doc);
+		Log.d("debugMarcherList", ""+doc.getTextContent());
 		//NodeList id = doc.getElementsByTagName(ID);
 		//Element el = ( Element ) id.item( 0 );
 		//iden = parser.getElementValue(el);
 		NodeList marcherList = doc.getElementsByTagName( MARCHER );
-		Log.d("debugMarcherList", "Got the node list");
-		Log.d("debugMarcherList", ""+ marcherList.getLength());
+
+		System.out.println( "marcherlength" + marcherList.getLength() );
 		for( int j = 0; j < marcherList.getLength(); j++ ) {
-			Node marcher = marcherList.item(j);
-			NodeList nl = marcher.getChildNodes();
-			for( int i = 0; i < nl.getLength(); i++ ) {
-				Element e = (Element) nl.item(i);
-				RawDot dot = new RawDot();
-				dot.setBpm(Integer.parseInt(parser.getValue(e, BPM)));
-				dot.setCount(Integer.parseInt(parser.getValue(e, SETCOUNT)));
-				dot.setSide(Integer.parseInt(parser.getValue(e, SIDE)));
-				Log.d("driveTest", "Got here 1");
-				dot.setHorizontal(Integer.parseInt(parser.getValue(e, HORIZONTAL)));
-				Log.d("driveTest", "Got here 2");
-				dot.setHorizontalDirection(parser.getValue(e, HORIZONTALDIRECTION));
-				Log.d("driveTest",  "Got here 3");
-				dot.setHorizontalStep(Integer.parseInt(parser.getValue(e, HORIZONTALSTEP)));
-				dot.setVertical(parser.getValue(e, VERTICAL));
-				dot.setVerticalDir(parser.getValue(e, VERTICALDIRECTION));
-				dot.setVerticalStep(Integer.parseInt(parser.getValue(e, VERTICALSTEP)));
-				dotBook.add(dot);
-				Log.d("debugMarcherList", ""+dotBook.size());
-				Log.d( "DotBook", "BPM: " + i + " " + dot.getBPM() );
-				Log.d( "DotBook", "SetCount: " + i + " " + dot.getSetCount() );
-				
+			NodeList dl = marcherList.item(j).getChildNodes();
+			System.out.println( "Iterator: " + j );
+			for( int i = 0; i < dl.getLength(); i++ ) {
+				if (dl.item(i).getNodeType() == Node.ELEMENT_NODE) {
+
+					Element e = (Element) dl.item(i);
+					RawDot dots = new RawDot();
+					dots.setBpm(Integer.parseInt(parser.getValue(e, BPM)));
+					dots.setCount(Integer.parseInt(parser.getValue(e, SETCOUNT)));
+					dots.setSide(Integer.parseInt(parser.getValue(e, SIDE)));
+					Log.d("driveTest", "Got here 1");
+					dots.setHorizontal(Integer.parseInt(parser.getValue(e, HORIZONTAL)));
+					Log.d("driveTest", "Got here 2");
+					dots.setHorizontalDirection(parser.getValue(e, HORIZONTALDIRECTION));
+					Log.d("driveTest",  "Got here 3");
+					dots.setHorizontalStep(Integer.parseInt(parser.getValue(e, HORIZONTALSTEP)));
+					dots.setVertical(parser.getValue(e, VERTICAL));
+					Log.d("driveTest",  "Got here 4");
+					dots.setVerticalDir(parser.getValue(e, VERTICALDIRECTION));
+					Log.d("driveTest",  "Got here 5");
+					dots.setVerticalStep(Integer.parseInt(parser.getValue(e, VERTICALSTEP)));
+					Log.d("driveTest",  "Got here 6");
+					
+					dotBook.add(dots);
+		//			Log.d("debugMarcherList", ""+dotBook.size());
+		//			Log.d( "DotBook", "BPM: " + i + " " + dot.getBPM() );
+		//			Log.d( "DotBook", "SetCount: " + i + " " + dot.getSetCount() );
+					}	
+				}
 			}
-		}	
 		Log.d("debugMarcherList", "Done with the init");
 		convertAndWrite( path ); 
 	}
@@ -85,6 +91,7 @@ public class RawDotBook {
 		int SCREEN = 20;
 		int HORPIXMARG = hndler.getHorizontalPixMarg();
 		int VERTPIXMARG = hndler.getVerticalPixMarg();
+		xWriter.addMarcher();
 		for( int i = 0; i < dotBook.size(); i++ ) {
 			int x = 0;
 			int y = 0;
@@ -101,6 +108,9 @@ public class RawDotBook {
 				x = HORPIXMARG * margCoeficient;
 			}
 			
+			Log.d("debugMarcherList", "Before null pointer");
+			Log.d("debugMarcherList", "Vertical: " + dotBook.get(i).getVertical());
+			Log.d("debugMarcherList", "Vertical" + dotBook.get(i).getVerticalStep());
 			// Vertical pixel if-block
 			if ( dotBook.get( i ).getVertical().equals( "front" )) {
 				y = VERTPIXMARG * 2;

@@ -65,7 +65,7 @@ public class RawDot {
 	}
 	
 	public void setVertical( String vert ) {
-		verticalDir = vert;
+		vertical = vert;
 	}
 	
 	public void setVerticalDir( String vertDir ) {
