@@ -33,9 +33,9 @@ public class Marcher {
 		currDot = 0;
 	}
 	
-	public void init( String path ) {
+	public void init( String path, int increment ) {
 		Log.d("debugMarcherList", "In the marcher init");
-		dotBook.init( path );
+		dotBook.init( path, increment );
 		Dot dot = dotBook.getDot( currDot );
 		currX = dot.getX();
 		currY = dot.getY();
@@ -92,14 +92,22 @@ public class Marcher {
 		currY += (moveY * beatsPassed);
 	}
 	
+	public State isLastDot() {
+		if( currDot == dotBook.getSize() - 1 ) {
+			return State.PAUSED;
+		} else {
+			return State.RUNNING;
+		}
+	}
+	
 	public void resume() {
 		
 	}
 	
 	public void draw( Canvas canvas, Paint paint ) {
 		canvas.drawCircle( currX, currY, 4.0f, paint );
-		Log.d( "Drawing", "CurrX: " + currX );
-		Log.d( "Drawing", "CuurY: " + currY );
+		Log.d( "render ", "CurrX: " + currX );
+		Log.d( "render ", "CuurY: " + currY );
 		//Log.d( "Marcher", "Dot: " + dotBook.getDot(1) );
 	}
 	

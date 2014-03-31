@@ -280,7 +280,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
             }
             Log.i("driveTest", "File contents opened");
             Log.i("driveText", "File things: " + context.getFilesDir().getAbsolutePath() );
-            String fileName = "masterDotBook.xml";
+            String fileName = "rawMasterDotBook.xml";
             try {
                 InputStream inStream = result.getContents().getInputStream();
                 

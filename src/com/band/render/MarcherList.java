@@ -13,42 +13,33 @@ import android.util.Log;
 public class MarcherList {
 	
 	public ArrayList<Marcher> marcherList;
-	ArrayList<String> filePaths;
 	String[] files;
 	int beatCounter;
 	int setCount;
+	Context context;
 	
-	public MarcherList( Context context ) {
+	public MarcherList( Context cont ) {
 		marcherList = new ArrayList<Marcher>();
-		filePaths = new ArrayList<String>();
 		beatCounter = 0;
-		AssetManager assets = context.getAssets();
-		try {
-			files = assets.list("");
-			for( int i = 0; i <= files.length - 5; i++) {
-				filePaths.add(files[i]);
-			}
-			Log.d("Exceptions", "" + assets.list("assets"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		for( int i = 0; i <= filePaths.size(); i++) {
+		context = cont;
+	}
+	
+	public void init( int size ) {
+		Log.d("debugMarcherList", "Started with the init");
+		for( int i = 0; i < size; i++ ) {
 			Marcher marcher = new Marcher(context);
 			marcherList.add(marcher);
 		}
-	}
-	
-	public void init() {
-		Log.d("debugMarcherList", "Started with the init");
-		for( int i = 0; i < filePaths.size(); i++ ) {
-			Log.d("debugMarcherList", " init i: " + i);
-			marcherList.get( i ).init( filePaths.get(i) );
+		for( int i = 0; i < marcherList.size(); i++ ) {
+			marcherList.get(i).init( "masterDotBookFile.xml", i );
 		}
+		Log.d("debugMarcherList", "Ended with the init");
 	}
 	
 	public void draw( Canvas canvas, Paint paint ){
 		for( int i = 0; i < marcherList.size(); i++ ) {
 			// Create
+			Log.d( "render", "Marcher: " + i );
 			marcherList.get( i ).draw( canvas, paint );
 		}
 		Log.d( "Dot", "MarcherList size: "+ marcherList.size() );
@@ -75,7 +66,7 @@ public class MarcherList {
 		for ( int i = 0; i < marcherList.size(); i++ ) {
 			marcherList.get( i ).update( beatsPassed );
 		}
-		setCount = getSetCount();
+		//setCount = getSetCount();
 		beatCounter += beatsPassed;
 		Log.d( "Dot", "beatCounter: " + beatCounter );
 	}
@@ -94,6 +85,7 @@ public class MarcherList {
 		Log.d( "FullUpdate", "Reached full update" );
 		for ( int i = 0; i < marcherList.size() - 1; i++ ) {
 			Log.d( "FullUpdate", "MarcherList Size:" + marcherList.size() );
+			Log.d( "render", "Marcher: " + i );
 			Marcher marcher = marcherList.get( i );
 			marcher.fullUpdate( beatsPassed );
 		}
@@ -109,5 +101,13 @@ public class MarcherList {
 	public int getSetCount() {
 		// I/O To retrieve the set count and pass it to the Renderer 
 		return marcherList.get( 0 ).getSetCount();
+	}
+	
+	public boolean isLastDot() {
+		if( marcherList.get( 0 ).isLastDot() == State.PAUSED ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.band.render;
 
+import com.band.supporting.RawDotBook;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,16 +18,21 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 	Paint paint;
 	MarcherList marcherList;
 	ScreenHandler screenHandler;
+	Context context;
+	RawDotBook rawDotBook;
 	//PlayerManager playerManager;
 	
 	
-	public RenderRewrite( Context context, MarcherList list, ScreenHandler handlr ) {
-		super( context );
+	public RenderRewrite( Context cont, MarcherList list, ScreenHandler handlr ) {
+		super( cont );
+		context = cont;
 		paint = new Paint();
 		paint.setColor( Color.WHITE );
 		holder = getHolder();
 		screenHandler = handlr;
-		screenHandler.setState( State.READY );
+		//screenHandler.setState( State.READY );
+		Log.d("render", "Finished with constructor");
+		rawDotBook = new RawDotBook( context, screenHandler );
 	}
 	
 	@Override
@@ -40,10 +47,14 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				Canvas canvas = holder.lockCanvas();
 				
 				screenHandler.initHndler( canvas );
+				rawDotBook.init( "rawMasterDotBook.xml" );
+				screenHandler.init();
 				
 				holder.unlockCanvasAndPost( canvas );
 				
-				screenHandler.setState( State.USRPAUSE );
+				screenHandler.setState( State.PAUSED );
+				Log.d("render", "initrun");
+				screenHandler.setState( State.RUNNING );
 			}
 			
 			// Executes when the state is running and needs to be updated and drawn
@@ -53,19 +64,21 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				float beatsPassed = screenHandler.getBeatsPassed( deltaTime );
 				Log.d( "renderRe", "DeltaTime: " + deltaTime );
 				Log.d( "renderRe", "BeatsPassed: " + beatsPassed );
+				if( !screenHandler.isLastDot() ) {
 				screenHandler.update( beatsPassed );
 				if(!holder.getSurface().isValid())   
 					continue;
 				Canvas canvas = holder.lockCanvas();
 				canvas.drawRGB( 148, 214, 107 );
-				paint.setColor( Color.WHITE );
+				paint.setColor( Color.BLUE );
 				screenHandler.present( canvas, paint );
 				// Draw buttons
 				holder.unlockCanvasAndPost( canvas );
+				}
 			}
 			
 			// Executes when the user paused the player 	not android and the view still needs drawing
-			if( screenHandler.state == State.USRPAUSE ) {
+			if( screenHandler.state == State.PAUSED ) {
 				Canvas canvas = holder.lockCanvas();
 				canvas.drawRGB( 148, 214, 107 );
 				paint.setColor( Color.WHITE );
@@ -83,19 +96,23 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 	}
 	
 	public void resume() {
+		Log.d("render", "Called resume");
 		//marcherList.resume();
 		//playerManager.setState( State.READY );
 		playing = true;
 		renderThread = new Thread(this);
 		renderThread.start();
+		Log.d("render", "Finishd resume");
 	}
 	
 	public void pause() {
+		Log.d("render", "Called pause");
 		playing = false;
 		screenHandler.setState( State.SYSPAUSE );
 		while( true ) {
 			try {	
 				renderThread.join();
+				Log.d("render", "Finishd pause");
 				return;
 			} catch ( InterruptedException e ) {
 				

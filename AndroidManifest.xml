@@ -55,7 +55,14 @@
                 <action android:name="com.band.activities.DriveUpdate" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>    
-        </activity>    
+        </activity>  
+        <activity
+            android:name="com.band.render.RenderAct" >
+            <intent-filter>
+                <action android:name="com.band.render.RenderAct" />
+                <category android:name="android.intent.category.DEFUALT" />
+            </intent-filter>
+        </activity>  
 
     </application>
 

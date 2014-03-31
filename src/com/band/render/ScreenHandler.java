@@ -1,11 +1,18 @@
 package com.band.render;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
+import android.view.Display;
 import android.widget.Button;
 
 /** 
@@ -32,6 +39,8 @@ public class ScreenHandler {
 	int VERTFIELDY;
 	float deadSpaceHeight;
 	ArrayList<Button> buttonList;
+	AssetManager assets;
+	Bitmap pause;
 	
 	// PlayerManager 
 	State state;
@@ -39,13 +48,15 @@ public class ScreenHandler {
 	float BPM;
 	float beatCoeificient;
 	MarcherList marcherList;
+	int marcherNum;
+	Display display;
 	
 	
 	public ScreenHandler( MarcherList mList, Context cont ) {
 		marcherList = mList;
 		context = cont;
-		BPM = marcherList.getBPM();
 		buttonList = new ArrayList<Button>();
+		createBitMap();
 		/*
 		 * I will then evenly space the UI buttons within this dead space
 		 * PAUSE, SET CHOOSER / SETTER, PLAY, UI control 
@@ -64,6 +75,7 @@ public class ScreenHandler {
 		marcherList.draw( canvas, paint );
 		paint.setColor( Color.BLACK );
 		canvas.drawRect( 0 , HEIGHT - deadSpaceHeight, WIDTH, HEIGHT, paint );
+		canvas.drawBitmap(pause, WIDTH - 75, HEIGHT, paint );
 		for( int i = 0; i <= 19; i++ ) {
 			paint.setColor( Color.WHITE );
 			int xDraw = ( HORPIXMARG * i );
@@ -75,8 +87,17 @@ public class ScreenHandler {
 		}
 	}
 	
+	public boolean isLastDot() {
+		if( marcherList.isLastDot() == true ){
+			setState(State.PAUSED);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public void init() {
-		marcherList.init();
+		marcherList.init( marcherNum );
 	}
 	
 	public void initHndler( Canvas canvas ) {
@@ -113,7 +134,34 @@ public class ScreenHandler {
 		return VERTPIXMARG;
 	}
 	
+	public float getDeadSpace() {
+		return deadSpaceHeight;
+	}
+	
 	public int getStep() {
 		return STEP;
+	}
+	
+	public int getMarcherNum() {
+		return marcherNum;
+	}
+	
+	public void setMarcherNum( int marcher ) {
+		marcherNum = marcher;
+	}
+	
+	public void createBitMap()
+	{
+		try {
+			//Log.d( "bitmapCalss", "Bitmap try called");
+			assets = context.getAssets();
+			InputStream inputStream = assets.open( "pause.jpg" );
+			pause = BitmapFactory.decodeStream( inputStream );
+			inputStream.close();
+		} catch (IOException e) {
+			Log.d( "bitmapClass", "Bitmap IO prob" );
+			// Spacer commet
+		} finally {
+		}
 	}
 }

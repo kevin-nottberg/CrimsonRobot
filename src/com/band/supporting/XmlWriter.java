@@ -18,6 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 public class XmlWriter {
@@ -72,7 +73,7 @@ public class XmlWriter {
  
 		// salary elements
 		Element yElement = doc.createElement("y");
-		yElement.appendChild( doc.createTextNode( Integer.toBinaryString( y ) ) );
+		yElement.appendChild( doc.createTextNode( Integer.toString( y ) ) );
 		dot.appendChild( yElement );
 	}
 	
@@ -96,12 +97,12 @@ public class XmlWriter {
 		}
 		DOMSource source = new DOMSource(doc);
 		StreamResult streamResult = new StreamResult( fileOut );
+		Log.d("driveTest", "Rewrite contents: " + fileOut.toString() );
 		try {
 			transformer.transform(source, streamResult);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
 	}
 }

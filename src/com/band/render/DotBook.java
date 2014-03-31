@@ -24,6 +24,7 @@ public class DotBook {
 	static final String X = "x";
 	static final String Y = "y";
 	static final String ID = "id";
+	static final String MARCHER = "marcher";
 	Context context;
 	String iden;
 	
@@ -38,19 +39,23 @@ public class DotBook {
 	}
 	
 	
-	public void init(String path) {
+	public void init( String path, int increment ) {
 		Log.d("debugMarcherList", "In the dot book init");
 		XmlParser parser = new XmlParser( context );
 		Log.d("debugMarcherList", "" + path);
 		Document doc = parser.getDomElement(path);
+		Element root = doc.getDocumentElement();
 		Log.d("debugMarcherList", "Got parser and created got the doc");
 		Log.d("debugMarcherList", ""+doc);
 		//NodeList id = doc.getElementsByTagName(ID);
 		//Element el = ( Element ) id.item( 0 );
 		//iden = parser.getElementValue(el);
-		NodeList nl = doc.getElementsByTagName(DOT);
+		NodeList ml = root.getElementsByTagName( MARCHER );
+		NodeList nl = ml.item( increment ).getChildNodes();
+		Log.d("debugMarcherList", "increment: "+ increment);
+		Log.d("debugMarcherList", "node list: "+ nl.getLength());
 		Log.d("debugMarcherList", "Got the node list");
-		Log.d("debugMarcherList", ""+ nl.getLength());
+		Log.d("debugMarcherList", ""+ ml.getLength());
 		for( int i = 0; i < nl.getLength(); i++ ) {
 			Element e = (Element) nl.item(i);
 			Dot dot = new Dot();
@@ -59,13 +64,14 @@ public class DotBook {
 			dot.setX(Integer.parseInt(parser.getValue(e, X)));
 			dot.setY(Integer.parseInt(parser.getValue(e, Y)));
 			dotBook.add(dot);
-			Log.d("debugMarcherList", ""+dotBook.size());
+			Log.d("debugMarcherList", "DotBook size: "+dotBook.size());
 			Log.d( "DotBook", "BPM: " + i + " " + dot.getBPM() );
 			Log.d( "DotBook", "SetCount: " + i + " " + dot.getSetCount() );
 			Log.d( "DotBook", "X: " + i + " " + dot.getX() );
 			Log.d( "DotBook", "Y: "+ i + " " + dot.getY() );
 		}
 		Log.d("debugMarcherList", "Done with the init");
+		Log.d("DotBook", "DotBook size: " + dotBook.size() + "Marcher Increment: " + increment );
 	}
 	
 	/**
@@ -121,5 +127,9 @@ public class DotBook {
 	 */
 	public void writeToXml() {
 		
+	}
+	
+	public int getSize() {
+		return dotBook.size();
 	}
 }

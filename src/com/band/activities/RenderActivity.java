@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.band.gen.R;
 import com.band.render.MarcherList;
+import com.band.render.RenderAct;
 import com.band.render.RenderRewrite;
 import com.band.render.ScreenHandler;
 import com.band.render.State;
@@ -40,6 +41,7 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 	RenderRewrite render;
 	Button updateButton;
 	Button dotBookParse;
+	Button startButton;
 	Display display;
 	Context context;
 	
@@ -54,12 +56,10 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 		mList = new MarcherList( this );
 				
 		final ScreenHandler handlr = new ScreenHandler( mList, this );
-		//handlr.setState( State.PAUSED );
-		//handlr.init();
-		handlr.initHndler( new Canvas());
+		handlr.initHndler( new Canvas() );
 		
 		Log.d("onCreate", "Done with marching list");
-		//render = new RenderRewrite( this, mList, handlr );
+		render = new RenderRewrite( this, mList, handlr );
 		Log.d("debug", "Finished making the DotBook render object");
 		setContentView(R.layout.render_layout);
 		// setContentView( render );
@@ -82,8 +82,21 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 				// TODO Auto-generated method stub
 				RawDotBook rawDotBook = new RawDotBook( context, handlr );
 				rawDotBook.init( "masterDotBook.xml" );
+				handlr.setState(State.RUNNING);
 			}
 		});
+		startButton = (Button) findViewById( R.id.button3 );
+		startButton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				handlr.init();
+				setContentView(render);
+				render.resume();
+			}
+		});
+		
 		
 	}
 	
@@ -96,7 +109,7 @@ public class RenderActivity extends BaseAct implements OnTouchListener {
 	@Override
 	public void onPause() {
 		super.onPause();
-		//render.pause();
+		render.pause();
 	}
 	
 	@Override
