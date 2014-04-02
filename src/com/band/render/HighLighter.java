@@ -1,9 +1,13 @@
 package com.band.render;
 
+import java.util.ArrayList;
+
 import android.graphics.Color;
 
 public class HighLighter {
 	
+	ArrayList<String> idList;
+	ArrayList<String> sectionList;
 	String marcherID;
 	String sectionID;
 	Color color;
@@ -12,27 +16,16 @@ public class HighLighter {
 		
 	}
 	
-	public void setMarcherID( String marcher ) {
-		marcherID = marcher;
+	public ArrayList<String> getIdList() {
+		return idList;
 	}
 	
-	public String getMarcherID() {
-		return marcherID;
+	public ArrayList<String> getSectionList() {
+		return sectionList;
 	}
 	
-	public void setSectionID( String section ) {
-		sectionID = section;
-	}
-	
-	public String getSectionID() {
-		return sectionID;
-	}
-	
-	public void setColor( Color col ) {
-		color = col;
-	}
-	
-	public Color getColor() {
-		return color;
+	//Parser that will go get all the attributes from the Raw Master file and store it in array list
+	public void getArrtributes() {
+		
 	}
 }
