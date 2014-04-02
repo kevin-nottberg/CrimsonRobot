@@ -11,8 +11,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.util.Log;
-import android.view.Display;
 import android.widget.Button;
 
 /** 
@@ -27,7 +27,7 @@ import android.widget.Button;
 
 public class ScreenHandler {
 	
-	// Screen Handler
+	// Canvas Variables
 	float HEIGHT;
 	int WIDTH;
 	int STEP;
@@ -38,18 +38,24 @@ public class ScreenHandler {
 	float VERTFIELDHASH;
 	int VERTFIELDY;
 	float deadSpaceHeight;
+	
+	// Assets
 	ArrayList<Button> buttonList;
 	AssetManager assets;
 	Bitmap pause;
+	Bitmap play;
+	Bitmap upArrow;
+	Bitmap downArrow;
+	Bitmap backArrow;
 	
-	// PlayerManager 
+	// Render Variables
 	State state;
 	Context context;
 	float BPM;
 	float beatCoeificient;
 	MarcherList marcherList;
 	int marcherNum;
-	Display display;
+	int currDot;
 	
 	
 	public ScreenHandler( MarcherList mList, Context cont ) {
@@ -57,14 +63,16 @@ public class ScreenHandler {
 		context = cont;
 		buttonList = new ArrayList<Button>();
 		createBitMap();
+		currDot = 0;
 		/*
 		 * I will then evenly space the UI buttons within this dead space
 		 * PAUSE, SET CHOOSER / SETTER, PLAY, UI control 
 		*/
 	}
 	
-	public void drawButtons( Canvas canvas ) {
-		// Create and design the button UI
+	public void drawButtons( Canvas canvas, Paint paint) {
+		paint.setColor( Color.TRANSPARENT );
+		canvas.drawBitmap(pause, WIDTH - 75, HEIGHT + 10, paint);
 	}
 	
 	public void update( float beatsPassed ) {
@@ -72,10 +80,9 @@ public class ScreenHandler {
 	}
 	
 	public void present( Canvas canvas, Paint paint ) {
-		marcherList.draw( canvas, paint );
 		paint.setColor( Color.BLACK );
+		
 		canvas.drawRect( 0 , HEIGHT - deadSpaceHeight, WIDTH, HEIGHT, paint );
-		canvas.drawBitmap(pause, WIDTH - 75, HEIGHT, paint );
 		for( int i = 0; i <= 19; i++ ) {
 			paint.setColor( Color.WHITE );
 			int xDraw = ( HORPIXMARG * i );
@@ -84,12 +91,31 @@ public class ScreenHandler {
 			// Hash line draw
 			canvas.drawRect( xDraw - 4, (VERTPIXMARG * 1) - 2, xDraw + 4, (VERTPIXMARG * 1) + 2, paint);
 			canvas.drawRect( xDraw - 4, (VERTPIXMARG * 2) - 2, xDraw + 4, (VERTPIXMARG * 2) + 2, paint);
+			
+			if( state == State.RUNNING ) {
+				canvas.drawBitmap(pause, canvas.getWidth() - 75, HEIGHT - HEIGHT, null );
+			}
+			if( state == State.PAUSED ) {
+				canvas.drawBitmap(play, canvas.getWidth() - 75, HEIGHT - HEIGHT, null );
+			}
+			
+			canvas.drawBitmap(upArrow, canvas.getWidth() - 175, 0, null );
+			paint.setColor( Color.TRANSPARENT );
+			paint.setStyle( Style.FILL );
+			canvas.drawPaint(paint);
+			paint.setTextSize( 20 );
+			paint.setColor( Color.RED );
+			canvas.drawText("" + getCurrDot(), canvas.getWidth() - 245, 0, paint);
+			canvas.drawBitmap(downArrow, canvas.getWidth() - 350, 0, null );
+			canvas.drawBitmap(backArrow, canvas.getWidth() - canvas.getWidth(), 0, null );
 		}
+		paint.setColor( Color.WHITE );
+		marcherList.draw( canvas, paint );
 	}
 	
 	public boolean isLastDot() {
 		if( marcherList.isLastDot() == true ){
-			setState(State.PAUSED);
+			setState( State.PAUSED );
 			return true;
 		} else {
 			return false;
@@ -153,9 +179,9 @@ public class ScreenHandler {
 	public void createBitMap()
 	{
 		try {
-			//Log.d( "bitmapCalss", "Bitmap try called");
+			Log.d( "bitmapClass", "Bitmap try called");
 			assets = context.getAssets();
-			InputStream inputStream = assets.open( "pause.jpg" );
+			InputStream inputStream = assets.open( "pause.png" );
 			pause = BitmapFactory.decodeStream( inputStream );
 			inputStream.close();
 		} catch (IOException e) {
@@ -163,5 +189,53 @@ public class ScreenHandler {
 			// Spacer commet
 		} finally {
 		}
+		try {
+			InputStream inputStream = assets.open( "play.png" );
+			play = BitmapFactory.decodeStream( inputStream );
+			inputStream.close();
+		} catch (IOException e) {
+			
+		} finally {
+		}
+		try {
+			Log.d( "bitmapClass", "Bitmap try called");
+			InputStream inputStream = assets.open( "downArrow.png" );
+			downArrow = BitmapFactory.decodeStream( inputStream );
+			inputStream.close();
+		} catch (IOException e) {
+			Log.d( "bitmapClass", "Bitmap IO prob" );
+			// Spacer commet
+		} finally {
+		}
+		try {
+			Log.d( "bitmapClass", "Bitmap try called");
+			InputStream inputStream = assets.open( "upArrow.png" );
+			upArrow = BitmapFactory.decodeStream( inputStream );
+			inputStream.close();
+		} catch (IOException e) {
+			Log.d( "bitmapClass", "Bitmap IO prob" );
+			// Spacer commet
+		} finally {
+		}
+		try {
+			Log.d( "bitmapClass", "Bitmap try called");
+			InputStream inputStream = assets.open( "backArrow.png" );
+			backArrow = BitmapFactory.decodeStream( inputStream );
+			inputStream.close();
+		} catch (IOException e) {
+			Log.d( "bitmapClass", "Bitmap IO prob" );
+			// Spacer commet
+		} finally {
+		}
+	}
+	
+	public void setCurrDot( int dot ) {
+		Log.d("marcherDot", "Handler set dot");
+		marcherList.setCurrDot( dot );
+	}
+	
+	
+	public int getCurrDot() {
+		return marcherList.getCurrDot();
 	}
 }

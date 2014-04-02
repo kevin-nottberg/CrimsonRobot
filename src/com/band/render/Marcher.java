@@ -29,7 +29,7 @@ public class Marcher {
 	public String iden;
 	
 	public Marcher( Context context ) {
-		dotBook = new DotBook(context);
+		dotBook = new DotBook( context );
 		currDot = 0;
 	}
 	
@@ -93,15 +93,11 @@ public class Marcher {
 	}
 	
 	public State isLastDot() {
-		if( currDot == dotBook.getSize() - 1 ) {
+		if( currDot == dotBook.getSize() ) {
 			return State.PAUSED;
 		} else {
 			return State.RUNNING;
 		}
-	}
-	
-	public void resume() {
-		
 	}
 	
 	public void draw( Canvas canvas, Paint paint ) {
@@ -122,5 +118,26 @@ public class Marcher {
 	public String getId() {
 		iden = dotBook.getId();
 		return iden;
+	}
+	
+	public void setCurrDot( int dot ) {
+		currDot = dot;
+		updateCurrDot( currDot );
+	}
+	
+	public void updateCurrDot( int selectDot ) {
+		Dot dot = dotBook.getDot( selectDot - 1 );
+		BPM = dot.getBPM();
+		setCount = dot.getSetCount();
+		oldX = dot.getX();
+		oldY = dot.getY();
+		currX = dot.getX();
+		currY = dot.getY();
+		dot = dotBook.getDot( selectDot );
+		newX = dot.getX();
+		newY = dot.getY();
+		moveX = ( newX - currX ) / setCount;
+		moveY = ( newY - currY ) / setCount;
+		Log.d("marcherDot", "Select CurrX: " + currX + "Select CurrY: " + currY );
 	}
 }

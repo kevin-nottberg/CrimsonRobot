@@ -37,7 +37,6 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 	
 	@Override
 	public void run() {
-		screenHandler.setState( State.INITRUN );
 		long startTime = System.nanoTime();
 		while( playing ) {
 			
@@ -54,18 +53,22 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				
 				screenHandler.setState( State.PAUSED );
 				Log.d("render", "initrun");
-				screenHandler.setState( State.RUNNING );
 			}
 			
 			// Executes when the state is running and needs to be updated and drawn
 			if( screenHandler.state == State.RUNNING ) {
+				// Time block 
 				float deltaTime = ( System.nanoTime() - startTime ) / 1000000000.0f;
 				startTime = System.nanoTime();
 				float beatsPassed = screenHandler.getBeatsPassed( deltaTime );
+				
 				Log.d( "renderRe", "DeltaTime: " + deltaTime );
 				Log.d( "renderRe", "BeatsPassed: " + beatsPassed );
 				if( !screenHandler.isLastDot() ) {
+				
 				screenHandler.update( beatsPassed );
+				
+				//Draw Block
 				if(!holder.getSurface().isValid())   
 					continue;
 				Canvas canvas = holder.lockCanvas();
@@ -77,14 +80,16 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				}
 			}
 			
-			// Executes when the user paused the player 	not android and the view still needs drawing
+			// Executes when the user paused the player not android and the view still needs drawing
 			if( screenHandler.state == State.PAUSED ) {
+				if( !holder.getSurface().isValid() )
+					continue;
 				Canvas canvas = holder.lockCanvas();
 				canvas.drawRGB( 148, 214, 107 );
 				paint.setColor( Color.WHITE );
 				screenHandler.present( canvas, paint );
-				// 	Draw buttons
-				holder.unlockCanvasAndPost(canvas);
+
+				holder.unlockCanvasAndPost( canvas );	
 			}
 			
 			try {
@@ -100,7 +105,7 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 		//marcherList.resume();
 		//playerManager.setState( State.READY );
 		playing = true;
-		renderThread = new Thread(this);
+		renderThread = new Thread( this );
 		renderThread.start();
 		Log.d("render", "Finishd resume");
 	}
@@ -108,7 +113,7 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 	public void pause() {
 		Log.d("render", "Called pause");
 		playing = false;
-		screenHandler.setState( State.SYSPAUSE );
+		screenHandler.setState( State.PAUSED );
 		while( true ) {
 			try {	
 				renderThread.join();

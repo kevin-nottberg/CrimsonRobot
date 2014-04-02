@@ -28,6 +28,7 @@ public class RawDotBook {
 	static final String VERTICAL = "vert";
 	static final String VERTICALDIRECTION = "vertdir";
 	static final String VERTICALSTEP = "vertstep";
+	static final String ID = "id";
 	XmlWriter xWriter;	
 	// Other variables and arrays
 	Context context;
@@ -54,6 +55,8 @@ public class RawDotBook {
 		for( int j = 0; j < marcherList.getLength(); j++ ) {
 			NodeList dl = marcherList.item(j).getChildNodes();
 			ArrayList<RawDot> dotBook = new ArrayList<RawDot>();
+			Element el = (Element) marcherList.item(j);
+			String id = el.getAttribute(ID);
 			System.out.println( "Iterator: " + j );
 			for( int i = 0; i < dl.getLength(); i++ ) {
 				if (dl.item(i).getNodeType() == Node.ELEMENT_NODE) {
@@ -83,19 +86,19 @@ public class RawDotBook {
 				}
 
 			}
-			convertAndWrite( dotBook );
+			convertAndWrite( dotBook, id );
 		}
 		xWriter.finishAndWriteDoc( context, "masterDotBookFile.xml" );
 		Log.d("debugMarcherList", "Done with the init"); 
 	}
 	
-	public void convertAndWrite( ArrayList<RawDot> dotBook ) {
+	public void convertAndWrite( ArrayList<RawDot> dotBook, String id ) {
 		int FIELD = 100;
 		int SCREEN = 5;
 		int HORPIXMARG = hndler.getHorizontalPixMarg();
 		int STEP = hndler.getHorizontalPixMarg() / 8;
 		int VERTPIXMARG = hndler.getVerticalPixMarg();
-		xWriter.addMarcher();
+		xWriter.addMarcher( id );
 		for( int i = 0; i < dotBook.size(); i++ ) {
 			int x = 0;
 			int y = 0;
@@ -166,10 +169,10 @@ public class RawDotBook {
 			Log.d("render", "Vertical" + dotBook.get( i ).getVerticalStep());
 			// Vertical pixel if-block
 			if ( dotBook.get( i ).getVertical().equals( "front" )) {
-				y = (int) ((VERTPIXMARG * 2) - hndler.getDeadSpace()) + 10;
+				y = (int) ((VERTPIXMARG * 2) - hndler.getDeadSpace());
 			}
 			if ( dotBook.get( i ).getVertical().equals( "back" )) {
-				y = (int) (VERTPIXMARG - hndler.getDeadSpace()) + 10;
+				y = (int) (VERTPIXMARG - hndler.getDeadSpace());
 			}
 			Log.d( "render", "Y: " + y );
 			

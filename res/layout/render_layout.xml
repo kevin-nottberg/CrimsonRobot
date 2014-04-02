@@ -46,12 +46,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.01"
                         android:text="Start " />
-
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Parse" />
                 </LinearLayout>
 
                 <LinearLayout

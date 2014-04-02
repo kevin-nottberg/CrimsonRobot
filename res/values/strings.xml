@@ -16,7 +16,7 @@
 
 <resources>
     <string name="app_name">CrimsionRobot</string>
-    <string-array name="planets_array">
+    <string-array name="options_array">
         <item>DotBook Render</item>
         <item>DotBook</item>
         <item>Metronome</item>

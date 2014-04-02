@@ -14,6 +14,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -47,9 +48,12 @@ public class XmlWriter {
 		
 	}
 	
-	public void addMarcher() {
+	public void addMarcher( String id ) {
 		marcherElement = doc.createElement("marcher");
-		rootElement.appendChild(marcherElement);
+		rootElement.appendChild( marcherElement );
+		Attr attr = doc.createAttribute("id");
+		attr.setValue( id );
+		marcherElement.setAttributeNode(attr);
 	}
 	
 	public void addDot( int bpm, int setcount, int x, int y ) {

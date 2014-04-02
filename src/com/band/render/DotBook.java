@@ -51,6 +51,8 @@ public class DotBook {
 		//Element el = ( Element ) id.item( 0 );
 		//iden = parser.getElementValue(el);
 		NodeList ml = root.getElementsByTagName( MARCHER );
+		Element temp = (Element) ml.item(increment);
+		iden = temp.getAttribute(ID);
 		NodeList nl = ml.item( increment ).getChildNodes();
 		Log.d("debugMarcherList", "increment: "+ increment);
 		Log.d("debugMarcherList", "node list: "+ nl.getLength());

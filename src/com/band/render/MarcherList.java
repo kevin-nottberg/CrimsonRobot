@@ -13,15 +13,16 @@ import android.util.Log;
 public class MarcherList {
 	
 	public ArrayList<Marcher> marcherList;
-	String[] files;
 	int beatCounter;
 	int setCount;
 	Context context;
+	int currDot;
 	
 	public MarcherList( Context cont ) {
 		marcherList = new ArrayList<Marcher>();
 		beatCounter = 0;
 		context = cont;
+		currDot = 0;
 	}
 	
 	public void init( int size ) {
@@ -63,9 +64,6 @@ public class MarcherList {
 			}
 		}
 		
-		for ( int i = 0; i < marcherList.size(); i++ ) {
-			marcherList.get( i ).update( beatsPassed );
-		}
 		//setCount = getSetCount();
 		beatCounter += beatsPassed;
 		Log.d( "Dot", "beatCounter: " + beatCounter );
@@ -83,11 +81,11 @@ public class MarcherList {
 	
 	public void fullUpdate( float beatsPassed ) {
 		Log.d( "FullUpdate", "Reached full update" );
-		for ( int i = 0; i < marcherList.size() - 1; i++ ) {
+		currDot++;
+		for ( int i = 0; i < marcherList.size(); i++ ) {
 			Log.d( "FullUpdate", "MarcherList Size:" + marcherList.size() );
 			Log.d( "render", "Marcher: " + i );
-			Marcher marcher = marcherList.get( i );
-			marcher.fullUpdate( beatsPassed );
+			marcherList.get( i ).fullUpdate( beatsPassed );
 		}
 		beatCounter = 0;
 		Log.d( "FullUpdate", "Out of full update" );
@@ -109,5 +107,17 @@ public class MarcherList {
 		} else {
 			return false;
 		}
+	}
+	
+	public void setCurrDot( int dot ) {
+		currDot = dot;
+		Log.d("marcherDot", "Set dot");
+		for( int i = 0; i < marcherList.size(); i++ ) {
+			marcherList.get( i ).setCurrDot( dot );
+		}
+	}
+	
+	public int getCurrDot() {
+		return currDot;
 	}
 }
