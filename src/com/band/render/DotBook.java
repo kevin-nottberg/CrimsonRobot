@@ -25,8 +25,10 @@ public class DotBook {
 	static final String Y = "y";
 	static final String ID = "id";
 	static final String MARCHER = "marcher";
+	static final String SECTION = "section";
 	Context context;
 	String iden;
+	String section;
 	
 	//Create and two dimensional array that will take dot number and store the x and y coordinates 
 	private ArrayList<Dot> dotBook;
@@ -52,7 +54,8 @@ public class DotBook {
 		//iden = parser.getElementValue(el);
 		NodeList ml = root.getElementsByTagName( MARCHER );
 		Element temp = (Element) ml.item(increment);
-		iden = temp.getAttribute(ID);
+		iden = temp.getAttribute( ID );
+		section = temp.getAttribute( SECTION );
 		NodeList nl = ml.item( increment ).getChildNodes();
 		Log.d("debugMarcherList", "increment: "+ increment);
 		Log.d("debugMarcherList", "node list: "+ nl.getLength());

@@ -2,30 +2,44 @@ package com.band.render;
 
 import java.util.ArrayList;
 
+import com.band.supporting.DotBookParser;
+
+import android.content.Context;
 import android.graphics.Color;
 
 public class HighLighter {
 	
-	ArrayList<String> idList;
-	ArrayList<String> sectionList;
-	String marcherID;
-	String sectionID;
+	Context context;
+	
+	ArrayList<HighLight> idList;
+	ArrayList<HighLight> sectionList;
+	DotBookParser parser;
 	Color color;
 	
-	public HighLighter() {
-		
-	}
+	public HighLighter( Context cont, MarcherList marcherList ) {
+		parser = new DotBookParser( context );
+		parser.init( "masterDotBookFile.xml" );
+	}	
 	
-	public ArrayList<String> getIdList() {
+	public ArrayList<HighLight> getIdList() {
 		return idList;
 	}
 	
-	public ArrayList<String> getSectionList() {
+	public ArrayList<HighLight> getSectionList() {
 		return sectionList;
 	}
 	
-	//Parser that will go get all the attributes from the Raw Master file and store it in array list
-	public void getArrtributes() {
-		
+	public void setHighLightById( String id, Color color ) {
+		HighLight highLight = new HighLight();
+		highLight.setColor( color );
+		highLight.setId( id );
+		idList.add( highLight );
+	}
+	
+	public void setHighLightBySection( String section, Color color ) {
+		HighLight highLight = new HighLight();
+		highLight.setColor( color );
+		highLight.setSection( section );
+		sectionList.add( highLight );
 	}
 }

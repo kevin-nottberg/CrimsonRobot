@@ -43,40 +43,43 @@ public class XmlWriter {
 	
 	public void startNewDoc() {
 		doc = docBuilder.newDocument();
-		rootElement = doc.createElement("bandutil");
-		doc.appendChild(rootElement);
+		rootElement = doc.createElement( "bandutil" );
+		doc.appendChild( rootElement );
 		
 	}
 	
-	public void addMarcher( String id ) {
-		marcherElement = doc.createElement("marcher");
+	public void addMarcher( String id, String section ) {
+		marcherElement = doc.createElement( "marcher" );
 		rootElement.appendChild( marcherElement );
-		Attr attr = doc.createAttribute("id");
+		Attr attr = doc.createAttribute( "id" );
 		attr.setValue( id );
-		marcherElement.setAttributeNode(attr);
+		Attr attr1 = doc.createAttribute( "section" );
+		attr1.setValue( section );
+		marcherElement.setAttributeNode( attr );
+		marcherElement.setAttributeNode( attr1 );
 	}
 	
 	public void addDot( int bpm, int setcount, int x, int y ) {
 		
-		Element dot = doc.createElement("dot");
-		marcherElement.appendChild(dot);
+		Element dot = doc.createElement( "dot" );
+		marcherElement.appendChild( dot );
 		
-		Element bpmElement = doc.createElement("bpm");
+		Element bpmElement = doc.createElement( "bpm" );
 		bpmElement.appendChild( doc.createTextNode( Integer.toString( bpm ) ) );
 		dot.appendChild( bpmElement );
  
 		// lastname elements
-		Element setcountElement = doc.createElement("setcount");
+		Element setcountElement = doc.createElement( "setcount" );
 		setcountElement.appendChild( doc.createTextNode( Integer.toString( setcount ) ) );
 		dot.appendChild( setcountElement );
  
 		// nickname elements
-		Element xElement = doc.createElement("x");
+		Element xElement = doc.createElement( "x" );
 		xElement.appendChild( doc.createTextNode( Integer.toString( x ) ) );
 		dot.appendChild( xElement );
  
 		// salary elements
-		Element yElement = doc.createElement("y");
+		Element yElement = doc.createElement( "y" );
 		yElement.appendChild( doc.createTextNode( Integer.toString( y ) ) );
 		dot.appendChild( yElement );
 	}

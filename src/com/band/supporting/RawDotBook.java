@@ -29,6 +29,8 @@ public class RawDotBook {
 	static final String VERTICALDIRECTION = "vertdir";
 	static final String VERTICALSTEP = "vertstep";
 	static final String ID = "id";
+	static final String SECTION = "section";
+
 	XmlWriter xWriter;	
 	// Other variables and arrays
 	Context context;
@@ -57,6 +59,7 @@ public class RawDotBook {
 			ArrayList<RawDot> dotBook = new ArrayList<RawDot>();
 			Element el = (Element) marcherList.item(j);
 			String id = el.getAttribute(ID);
+			String section = el.getAttribute( SECTION );
 			System.out.println( "Iterator: " + j );
 			for( int i = 0; i < dl.getLength(); i++ ) {
 				if (dl.item(i).getNodeType() == Node.ELEMENT_NODE) {
@@ -86,19 +89,18 @@ public class RawDotBook {
 				}
 
 			}
-			convertAndWrite( dotBook, id );
+			convertAndWrite( dotBook, id, section );
 		}
 		xWriter.finishAndWriteDoc( context, "masterDotBookFile.xml" );
 		Log.d("debugMarcherList", "Done with the init"); 
 	}
 	
-	public void convertAndWrite( ArrayList<RawDot> dotBook, String id ) {
-		int FIELD = 100;
+	public void convertAndWrite( ArrayList<RawDot> dotBook, String id, String section ) {
 		int SCREEN = 5;
 		int HORPIXMARG = hndler.getHorizontalPixMarg();
 		int STEP = hndler.getHorizontalPixMarg() / 8;
 		int VERTPIXMARG = hndler.getVerticalPixMarg();
-		xWriter.addMarcher( id );
+		xWriter.addMarcher( id, section );
 		for( int i = 0; i < dotBook.size(); i++ ) {
 			int x = 0;
 			int y = 0;
