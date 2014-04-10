@@ -169,7 +169,11 @@ public class BaseAct extends Activity {
 	    	Log.d("NavDrawer", "Position:" + position );
 	    	if( position == 1 ) {
 	    		Intent intent = new Intent( this, RenderActivity.class );
-	    		startActivity(intent);
+	    		startActivity( intent );
+	    	}
+	    	if( position == 2 ) {
+	    		Intent intent = new Intent( this, PersonalDotBook.class );
+	    		startActivity( intent );
 	    	}
 	    	/*
 	        Fragment fragment = new PlanetFragment();

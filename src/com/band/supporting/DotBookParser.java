@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.band.render.Dot;
@@ -11,6 +12,7 @@ import com.band.render.DotBook;
 import com.band.render.RawDot;
 
 import android.content.Context;
+import android.util.Log;
 
 public class DotBookParser {
 	
@@ -55,17 +57,34 @@ public class DotBookParser {
 			dotBook.setSection( e.getAttribute( SECTION ) );
 			NodeList dl = e.getChildNodes();
 			for( int j = 0; j < marchers.getLength(); j++ ){
-				RawDot dot = new RawDot();
-				Element el = (Element) dl.item( j );
-				dot.setBpm( Integer.parseInt( parser.getValue( el, BPM ) ) ); 
-				dot.setCount( Integer.parseInt( parser.getValue( el, SETCOUNT ) ) );
-				dot.setHorizontal( Integer.parseInt( parser.getValue( el, HORIZONTAL ) ) );
-				dot.setHorizontalDirection( parser.getValue( el, HORIZONTALDIRECTION ));
-				dot.setHorizontalStep( Integer.parseInt( parser.getValue( el, HORIZONTALSTEP ) ) );
-				dot.setVertical( parser.getValue( el, VERTICAL ) );
-				dot.setVerticalDir( parser.getValue( el, VERTICALDIRECTION) );
-				dot.setVerticalStep( Integer.parseInt( parser.getValue( el, VERTICALSTEP ) ) );
-				dotBook.addDot( dot );
+				if ( dl.item(j).getNodeType() == Node.ELEMENT_NODE ) {
+					RawDot dot = new RawDot();
+					Element el = (Element) dl.item( j );
+					dot.setBpm( Integer.parseInt( parser.getValue( el, BPM ) ) ); 
+					dot.setCount( Integer.parseInt( parser.getValue( el, SETCOUNT ) ) );
+					dot.setSide( Integer.parseInt( parser.getValue( el, SIDE ) ) );
+					dot.setHorizontal( Integer.parseInt( parser.getValue( el, HORIZONTAL ) ) );
+					dot.setHorizontalDirection( parser.getValue( el, HORIZONTALDIRECTION ) );
+					dot.setHorizontalStep( Integer.parseInt( parser.getValue( el, HORIZONTALSTEP ) ) );
+					dot.setVertical( parser.getValue( el, VERTICAL ) );
+					dot.setVerticalDir( parser.getValue( el, VERTICALDIRECTION ) );
+					dot.setVerticalStep( Integer.parseInt( parser.getValue( el, VERTICALSTEP ) ) );
+		
+					Log.d( "RawDotBook", "Id:" + dotBook.getId() );
+					Log.d( "RawDotBook", "Section: " + dotBook.getSection() );
+					Log.d( "RawDotBook", "Dot: " + i );
+					Log.d( "RawDotBook", "SetCount: " + dot.getSetCount() );
+					Log.d( "RawDotBook", "BPM: " + dot.getBPM() );
+					Log.d( "RawDotBook", "Side: " + dot.getSide() );
+					Log.d( "RawDotBook", "Horizontal: " + dot.getHorizontal() );
+					Log.d( "RawDotBook", "Horizontal Direction: " + dot.getHorizontalDirection() );
+					Log.d( "RawDotBook", "Horizontal Step: " + dot.getHorizontalStep() );
+					Log.d( "RawDotBook", "Vertical: " + dot.getVertical() );
+					Log.d( "RawDotBook", "Vertical Direction: " + dot.getVerticalDirection() );
+					Log.d( "RawDotBook", "Vertical Step: " + dot.getVerticalStep() );
+					dotBook.addDot( dot );
+
+				}	
 			}
 		}
 	}

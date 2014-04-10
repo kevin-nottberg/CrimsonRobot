@@ -44,4 +44,5 @@
     <string name="button3">Start Render</string>
     <string name="spinnerID1">Marcher ID</string>
     <string name="spinnerID2">Section</string>
+    <string name="spinnerPrompt3">Marcher ID </string>
 </resources>

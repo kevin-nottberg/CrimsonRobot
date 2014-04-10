@@ -49,6 +49,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter> 
         </activity>
+         <activity
+            android:name="com.band.activities.PersonalDotBook" >
+             <intent-filter>
+                 <action android:name="com.band.activities.PersonalDotBook" />
+                 <category android:name="android.intent.category.DEFAULT" />
+             </intent-filter>
+         </activity>
         <activity
             android:name="com.band.activities.DriveUpdate" >
             <intent-filter>
@@ -62,8 +69,7 @@
                 <action android:name="com.band.render.RenderAct" />
                 <category android:name="android.intent.category.DEFUALT" />
             </intent-filter>
-        </activity>  
-
+        </activity>
     </application>
 
 </manifest>
