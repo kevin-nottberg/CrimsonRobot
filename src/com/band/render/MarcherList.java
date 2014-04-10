@@ -69,11 +69,12 @@ public class MarcherList {
 	
 	public boolean reachedDot() {
 		Log.d( "Update", "In reached dot" );
-		if( beatCounter >= setCount ) {
+		if( beatCounter >= marcherList.get( 0 ).getSetCount() ) {
 			return true;
 		} else {
 			return false;
 		}
+		
 	}
 	
 	public void fullUpdate( float beatsPassed ) {
@@ -94,7 +95,6 @@ public class MarcherList {
 	}
 	
 	public int getSetCount() {
-		// I/O To retrieve the set count and pass it to the Renderer 
 		return marcherList.get( 0 ).getSetCount();
 	}
 	
