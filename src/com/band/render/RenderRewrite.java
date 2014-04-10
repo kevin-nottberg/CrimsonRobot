@@ -20,6 +20,7 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 	ScreenHandler screenHandler;
 	Context context;
 	RawDotBook rawDotBook;
+	float timeCounter;
 	//PlayerManager playerManager;
 	
 	
@@ -33,6 +34,7 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 		//screenHandler.setState( State.READY );
 		Log.d("render", "Finished with constructor");
 		rawDotBook = new RawDotBook( context, screenHandler );
+		timeCounter = 0;
 	}
 	
 	@Override
@@ -52,7 +54,6 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				holder.unlockCanvasAndPost( canvas );
 				
 				screenHandler.setState( State.PAUSED );
-				Log.d("render", "initrun");
 			}
 			
 			// Executes when the state is running and needs to be updated and drawn
@@ -61,13 +62,12 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				float deltaTime = ( System.nanoTime() - startTime ) / 1000000000.0f;
 				startTime = System.nanoTime();
 				float beatsPassed = screenHandler.getBeatsPassed( deltaTime );
-				
+				timeCounter += deltaTime;
 				Log.d( "renderRe", "DeltaTime: " + deltaTime );
 				Log.d( "renderRe", "BeatsPassed: " + beatsPassed );
 				if( !screenHandler.isLastDot() ) {
-				
-				screenHandler.update( beatsPassed );
-				
+					screenHandler.update( beatsPassed );
+				}
 				//Draw Block
 				if(!holder.getSurface().isValid())   
 					continue;
@@ -78,7 +78,6 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				// Draw buttons
 				holder.unlockCanvasAndPost( canvas );
 				}
-			}
 			
 			// Executes when the user paused the player not android and the view still needs drawing
 			if( screenHandler.state == State.PAUSED ) {
@@ -88,17 +87,19 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 				canvas.drawRGB( 148, 214, 107 );
 				paint.setColor( Color.WHITE );
 				screenHandler.present( canvas, paint );
-
-				holder.unlockCanvasAndPost( canvas );	
+				
+				holder.unlockCanvasAndPost( canvas );
+				startTime = System.nanoTime();
 			}
-			
 			try {
 				Thread.sleep( 380 );
 			} catch ( InterruptedException e ) {
 				e.printStackTrace();
 			}
-		}	
-	}
+		}
+	}	
+
+
 	
 	public void resume() {
 		Log.d("render", "Called resume");

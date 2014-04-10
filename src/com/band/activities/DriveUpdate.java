@@ -266,7 +266,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         };
         Drive.DriveApi.getFile( apiClient, mSelectedFileDriveId )
             .openContents( apiClient, DriveFile.MODE_READ_ONLY, listener)
-            .setResultCallback(contentsCallback);
+            .setResultCallback( contentsCallback );
         
         readMasterDotFile = true;
     }
@@ -293,8 +293,8 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
                 FileWriter fWriter = new FileWriter(file.getAbsolutePath());
                 BufferedWriter writer = new BufferedWriter( fWriter );
                 while ((line = reader.readLine()) != null) {
-                    out.append(line);
-                    writer.write(line);
+                    out.append( line );
+                    writer.write( line );
                 }
                 reader.close();
                 writer.close();

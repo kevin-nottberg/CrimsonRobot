@@ -1,11 +1,8 @@
 package com.band.render;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
@@ -32,7 +29,7 @@ public class MarcherList {
 			marcherList.add(marcher);
 		}
 		for( int i = 0; i < marcherList.size(); i++ ) {
-			marcherList.get(i).init( "masterDotBookFile.xml", i );
+			marcherList.get( i ).init( "masterDotBookFile.xml", i );
 		}
 		Log.d("debugMarcherList", "Ended with the init");
 	}
@@ -103,6 +100,14 @@ public class MarcherList {
 	
 	public boolean isLastDot() {
 		if( marcherList.get( 0 ).isLastDot() == State.PAUSED ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isFirstDot() {
+		if( marcherList.get( 0 ).isFirstDot() == State.PAUSED ) {
 			return true;
 		} else {
 			return false;

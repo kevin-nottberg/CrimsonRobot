@@ -74,6 +74,14 @@ public class DotBook {
 			Log.d( "DotBook", "SetCount: " + i + " " + dot.getSetCount() );
 			Log.d( "DotBook", "X: " + i + " " + dot.getX() );
 			Log.d( "DotBook", "Y: "+ i + " " + dot.getY() );
+			
+			Log.d( "Parser debug", "DotBook size: "+dotBook.size());
+			Log.d( "Parser debug", "Id: " + iden );
+			Log.d( "Parser debug", "Section: " + section );
+			Log.d( "Parser debug", "Dot: " + i + " BPM: " + dot.getBPM() );
+			Log.d( "Parser debug", "Dot: " + i + " Setcount: " + dot.getSetCount() );
+			Log.d( "Parser debug", "Dot: " + i + " X: " + dot.getX() );
+			Log.d( "Parser debug", "Dot: "+ i + " Y: " + dot.getY() );
 		}
 		Log.d("debugMarcherList", "Done with the init");
 		Log.d("DotBook", "DotBook size: " + dotBook.size() + "Marcher Increment: " + increment );
@@ -107,7 +115,7 @@ public class DotBook {
 	 * @return The bpm that was read in from the xml
 	 */
 	public int getBPM() {
-		return dotBook.get(1).getBPM();
+		return dotBook.get( 1 ).getBPM();
 	}
 	
 	/**
@@ -123,15 +131,6 @@ public class DotBook {
 	
 	public String getId() {
 		return iden;
-	}
-	
-	/**
-	 * Writes the most recent additions to
-	 * the dot book to a xml.
-	 * Should be called in the onPause() onStop() 
-	 */
-	public void writeToXml() {
-		
 	}
 	
 	public int getSize() {

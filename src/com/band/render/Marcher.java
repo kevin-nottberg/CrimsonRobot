@@ -73,11 +73,6 @@ public class Marcher {
 	 * It will then handle all the I/O for grabing the new X and Y from the dotbook
 	 */
 	public void fullUpdate( float beatsPassed ) {
-		// Load new newX and newY from the dotbook
-		// Then do new math and calculate the new xMove and YMove
-		// newY = I/O to get new coordinate
-		// newX = I/O to get new coordinate
-		// MATH!!
 		currDot++;
 		oldX = newX;
 		oldY = newY;
@@ -88,12 +83,20 @@ public class Marcher {
 		newY = dot.getY();
 		moveX = ( newX - currX ) / setCount;
 		moveY = ( newY - currY ) / setCount;
-		currX += (moveX * beatsPassed);
-		currY += (moveY * beatsPassed);
+		currX += ( moveX * beatsPassed );
+		currY += ( moveY * beatsPassed );
 	}
 	
 	public State isLastDot() {
-		if( currDot == dotBook.getSize() ) {
+		if( currDot == dotBook.getSize() - 1 ) {
+			return State.PAUSED;
+		} else {
+			return State.RUNNING;
+		}
+	}
+	
+	public State isFirstDot() {
+		if( currDot == 0 ) {
 			return State.PAUSED;
 		} else {
 			return State.RUNNING;
@@ -104,7 +107,6 @@ public class Marcher {
 		canvas.drawCircle( currX, currY, 4.0f, paint );
 		Log.d( "render ", "CurrX: " + currX );
 		Log.d( "render ", "CuurY: " + currY );
-		//Log.d( "Marcher", "Dot: " + dotBook.getDot(1) );
 	}
 	
 	public int getBPM() {
@@ -122,22 +124,27 @@ public class Marcher {
 	
 	public void setCurrDot( int dot ) {
 		currDot = dot;
-		updateCurrDot( currDot );
+		updateCurrDot( dot );
 	}
 	
 	public void updateCurrDot( int selectDot ) {
-		Dot dot = dotBook.getDot( selectDot - 1 );
+		Dot dot = dotBook.getDot( selectDot );
 		BPM = dot.getBPM();
 		setCount = dot.getSetCount();
 		oldX = dot.getX();
 		oldY = dot.getY();
 		currX = dot.getX();
 		currY = dot.getY();
-		dot = dotBook.getDot( selectDot );
+		
+		
+		// Next dot loaded if user presses play
+		dot = dotBook.getDot( selectDot + 1 );
 		newX = dot.getX();
 		newY = dot.getY();
-		moveX = ( newX - currX ) / setCount;
-		moveY = ( newY - currY ) / setCount;
-		Log.d("marcherDot", "Select CurrX: " + currX + "Select CurrY: " + currY );
+		moveX = ( newX - oldX ) / setCount;
+		moveY = ( newY - oldY ) / setCount;
+		Log.d( "marcherDot", "Select CurrX: " + currX + "Select CurrY: " + currY );
+		
+		
 	}
 }

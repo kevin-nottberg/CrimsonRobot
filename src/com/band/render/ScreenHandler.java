@@ -38,6 +38,7 @@ public class ScreenHandler {
 	float VERTFIELDHASH;
 	int VERTFIELDY;
 	float deadSpaceHeight;
+	float deadSpaceWidth;
 	
 	// Assets
 	ArrayList<Button> buttonList;
@@ -72,7 +73,7 @@ public class ScreenHandler {
 	
 	public void drawButtons( Canvas canvas, Paint paint) {
 		paint.setColor( Color.TRANSPARENT );
-		canvas.drawBitmap(pause, WIDTH - 75, HEIGHT + 10, paint);
+		canvas.drawBitmap( pause, WIDTH - 75, HEIGHT + 10, paint );
 	}
 	
 	public void update( float beatsPassed ) {
@@ -83,17 +84,17 @@ public class ScreenHandler {
 		paint.setColor( Color.BLACK );
 		
 		canvas.drawRect( 0 , HEIGHT - deadSpaceHeight, WIDTH, HEIGHT, paint );
-		for( int i = 0; i <= 19; i++ ) {
+		for( int i = 0; i <= 20; i++ ) {
 			paint.setColor( Color.WHITE );
 			int xDraw = ( HORPIXMARG * i );
 			// Yard line draw
 			canvas.drawRect( xDraw - 1, 0, xDraw + 1, HEIGHT - deadSpaceHeight, paint );
 			// Hash line draw
-			canvas.drawRect( xDraw - 4, (VERTPIXMARG * 1) - 2, xDraw + 4, (VERTPIXMARG * 1) + 2, paint);
-			canvas.drawRect( xDraw - 4, (VERTPIXMARG * 2) - 2, xDraw + 4, (VERTPIXMARG * 2) + 2, paint);
+			canvas.drawRect( xDraw - 4, (VERTPIXMARG * 1) - 2, xDraw + 4, (VERTPIXMARG * 1) + 2, paint );
+			canvas.drawRect( xDraw - 4, (VERTPIXMARG * 2) - 2, xDraw + 4, (VERTPIXMARG * 2) + 2, paint );
 			
 			if( state == State.RUNNING ) {
-				canvas.drawBitmap(pause, canvas.getWidth() - 75, HEIGHT - HEIGHT, null );
+				canvas.drawBitmap( pause, canvas.getWidth() - 75, HEIGHT - HEIGHT, null );
 			}
 			if( state == State.PAUSED ) {
 				canvas.drawBitmap(play, canvas.getWidth() - 75, HEIGHT - HEIGHT, null );
@@ -105,16 +106,25 @@ public class ScreenHandler {
 			canvas.drawPaint(paint);
 			paint.setTextSize( 20 );
 			paint.setColor( Color.RED );
-			canvas.drawText("" + getCurrDot(), canvas.getWidth() - 245, 0, paint);
-			canvas.drawBitmap(downArrow, canvas.getWidth() - 350, 0, null );
-			canvas.drawBitmap(backArrow, canvas.getWidth() - canvas.getWidth(), 0, null );
+			canvas.drawText( Integer.toString(getCurrDot()), canvas.getWidth() - 245, 0, paint );
+			canvas.drawBitmap( downArrow, canvas.getWidth() - 350, 0, null );
+			canvas.drawBitmap( backArrow, canvas.getWidth() - canvas.getWidth(), 0, null );
 		}
 		paint.setColor( Color.WHITE );
 		marcherList.draw( canvas, paint );
 	}
 	
 	public boolean isLastDot() {
-		if( marcherList.isLastDot() == true ){
+		if( marcherList.isLastDot() == true ) {
+			setState( State.PAUSED );
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isFirstDot() {
+		if( marcherList.isFirstDot() == true ) {
 			setState( State.PAUSED );
 			return true;
 		} else {
@@ -133,10 +143,10 @@ public class ScreenHandler {
 		HORFIELDX = 8;
 		VERTFIELDY = 160;
 		VERTFIELDHASH = 53.4f;
-		deadSpaceHeight = ( HEIGHT - (( HORFIELDX * WIDTH ) / HORFIELDY ));
-		 
-		HORPIXMARG = ( WIDTH / 19 ) + 1;
-		VERTPIXMARG = (int) (( (HEIGHT - deadSpaceHeight) * VERTFIELDHASH ) / VERTFIELDY);
+		deadSpaceHeight = ( HEIGHT - (( HORFIELDX * WIDTH ) / HORFIELDY ) );
+		
+		HORPIXMARG = (int) ( ( WIDTH / 20 ) );
+		VERTPIXMARG = (int) ( ( ( HEIGHT * VERTFIELDHASH ) / VERTFIELDY ) - deadSpaceHeight );
 		STEP = ( HORPIXMARG / 5 );
 	}
 	

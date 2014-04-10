@@ -72,6 +72,10 @@ public class RawDot {
 		verticalDir = vertDir;
 	}
 	
+	public String getVerticalDirection() {
+		return verticalDir;
+	}
+	
 	public int getVerticalStep() {
 		return verticalSteps;
 	}
