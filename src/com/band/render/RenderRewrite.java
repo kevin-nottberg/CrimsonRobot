@@ -116,13 +116,16 @@ public class RenderRewrite extends SurfaceView implements Runnable {
 		playing = false;
 		screenHandler.setState( State.PAUSED );
 		while( true ) {
-			try {	
-				renderThread.join();
-				Log.d("render", "Finishd pause");
-				return;
-			} catch ( InterruptedException e ) {
-				
+			try {
+				if( renderThread != null ) {
+					renderThread.join();
+				}	
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			Log.d("render", "Finishd pause");
+			return;
 		}
 	}
 }

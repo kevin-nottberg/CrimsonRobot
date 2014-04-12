@@ -9,21 +9,27 @@
         android:layout_height="150dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="50dp"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_below="@+id/textView1"
-        android:text="TextView2" />
+        android:text="TextView2"
+        android:textSize="50dp"
+        android:textAlignment="center" />
     
     <TextView 
         android:id="@+id/textView3"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_below="@+id/textView2"
-        android:text="Notes:" />
+        android:text="Notes:"
+        android:textSize="50dp"
+        android:textAlignment="center" />
     
     <Button
         android:id="@+id/button4"

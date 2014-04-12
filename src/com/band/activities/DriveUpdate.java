@@ -60,7 +60,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
 	
 	@Override
 	public void onCreate( Bundle savedInstanceState ) {
-		super.onCreate( savedInstanceState );
+		super.onCreate(savedInstanceState);
 		
 		context = this;
 		
@@ -114,6 +114,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         	return;
         }
         
+        /*
         try {
         	InputStream in = openFileInput("bdu_master_dot_fileid");
         	
@@ -128,12 +129,13 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         		}
         		
         		in.close();
-        	
+        		
         		if( buf.length() > 0 ) {
         		    mSelectedFileDriveId = DriveId.decodeFromString( buf.toString() );
         		
         		    Log.i("driveTest", "Using previously selected file: " + mSelectedFileDriveId.encodeToString() );
         		}
+        		
         	}
         }
         catch( java.io.FileNotFoundException e ) {
@@ -144,7 +146,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         	Toast.makeText( this, "Exception: " + t.toString(), Toast.LENGTH_SHORT ).show();
     	    Log.i("testing","fileid-load", t);
         }
-        
+        */
         apiClient.connect();
     }
 	
@@ -163,15 +165,9 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
             apiClient.disconnect();
         }
         super.onPause();
-        
+        /*
         Log.d("Testing", "onPause(): " + mSelectedFileDriveId );
         
-        if( mSelectedFileDriveId != null ) {
-            try {
-        	    OutputStreamWriter out = new OutputStreamWriter( openFileOutput("bdu_master_dot_fileid", 0 ) );
-        	
-        	    out.write( mSelectedFileDriveId.encodeToString() + "\n" );
-        	    out.close();
         	    
         	    Log.i("testing","fileid-save: " + mSelectedFileDriveId.encodeToString() );
             } catch( Throwable t ) {
@@ -179,6 +175,7 @@ public class DriveUpdate extends BaseAct implements ConnectionCallbacks, OnConne
         	    Log.i("testing","fileid-save-exception", t);
             }
         }
+        */
     }
 	
 	@Override

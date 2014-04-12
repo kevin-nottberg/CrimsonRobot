@@ -61,7 +61,7 @@ public class PerDotBook {
 	public String getVertical( int currDot ) {
 		RawDot dot = new RawDot();
 		dot = dotBook.get( currDot );
-		return dot.getHorizontalDirection();
+		return dot.getVertical();
 	}
 	
 	public String getVerticalDirection( int currDot ) {

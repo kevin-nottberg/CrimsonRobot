@@ -103,10 +103,10 @@ public class ScreenHandler {
 			canvas.drawBitmap(upArrow, canvas.getWidth() - 175, 0, null );
 			paint.setColor( Color.TRANSPARENT );
 			paint.setStyle( Style.FILL );
-			canvas.drawPaint(paint);
+			canvas.drawPaint( paint );
 			paint.setTextSize( 20 );
-			paint.setColor( Color.RED );
-			canvas.drawText( Integer.toString(getCurrDot()), canvas.getWidth() - 245, 0, paint );
+			paint.setColor( Color.WHITE );
+			canvas.drawText( Integer.toString( getCurrDot() ), canvas.getWidth() - 245, 0, paint );
 			canvas.drawBitmap( downArrow, canvas.getWidth() - 350, 0, null );
 			canvas.drawBitmap( backArrow, canvas.getWidth() - canvas.getWidth(), 0, null );
 		}

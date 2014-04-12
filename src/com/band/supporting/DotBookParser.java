@@ -56,8 +56,8 @@ public class DotBookParser {
 			dotBook.setId( e.getAttribute( ID ) );
 			dotBook.setSection( e.getAttribute( SECTION ) );
 			NodeList dl = e.getChildNodes();
-			for( int j = 0; j < marchers.getLength(); j++ ){
-				if ( dl.item(j).getNodeType() == Node.ELEMENT_NODE ) {
+			for( int j = 0; j < dl.getLength(); j++ ){
+				if ( dl.item( j ).getNodeType() == Node.ELEMENT_NODE ) {
 					RawDot dot = new RawDot();
 					Element el = (Element) dl.item( j );
 					dot.setBpm( Integer.parseInt( parser.getValue( el, BPM ) ) ); 
@@ -82,8 +82,8 @@ public class DotBookParser {
 					Log.d( "RawDotBook", "Vertical: " + dot.getVertical() );
 					Log.d( "RawDotBook", "Vertical Direction: " + dot.getVerticalDirection() );
 					Log.d( "RawDotBook", "Vertical Step: " + dot.getVerticalStep() );
+					Log.d( "perDotBook", "DotBoot size: " + dotBook.getSize() + "Marcher id: " + dotBook.getId() );
 					dotBook.addDot( dot );
-
 				}	
 			}
 		}
